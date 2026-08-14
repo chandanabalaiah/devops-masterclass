@@ -1,0 +1,18 @@
+pipeline{
+    agent any
+    stages{
+        stage('Git-checkout'){
+            steps{
+              git url: 'https://github.com/chandanabalaiah/devops-masterclass.git',branch: 'main'
+            }
+        }
+    
+        stage('Build'){
+            steps{
+              sh '''
+                 printenv
+              '''
+            }
+        }
+    }
+}
