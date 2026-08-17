@@ -116,13 +116,15 @@ st.markdown(
             background: linear-gradient(135deg, #ffffff, #f6f1ff);
             border-radius: 18px;
             padding: 1.1rem 1.3rem;
-            margin-bottom: 0.8rem;
+            margin-bottom: 0.6rem;
             border-left: 5px solid #764ba2;
             box-shadow: 0 8px 20px rgba(118, 75, 162, 0.12);
-            transition: transform 0.2s ease;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            cursor: pointer;
         }
         .project-card:hover {
             transform: translateX(4px);
+            box-shadow: 0 12px 28px rgba(118, 75, 162, 0.22);
         }
         .project-card h4 {
             margin: 0 0 0.25rem 0;
@@ -182,21 +184,33 @@ if "registered" not in st.session_state:
     st.session_state.registered = False
 if "user_data" not in st.session_state:
     st.session_state.user_data = {}
+if "joined_projects" not in st.session_state:
+    st.session_state.joined_projects = set()
 
 # ----------------------------------------------------------------------------
 # DATA — Project pool that gets "unlocked" after registration
 # ----------------------------------------------------------------------------
 PROJECT_POOL = [
-    {"name": "Aurora AI Assistant", "desc": "Build a conversational assistant for internal ops.", "tag": "AI/ML"},
-    {"name": "Nina Connect", "desc": "A member networking & mentorship platform.", "tag": "Community"},
-    {"name": "GreenPulse Tracker", "desc": "Sustainability dashboard for local chapters.", "tag": "Impact"},
-    {"name": "SkillForge Academy", "desc": "Peer-led micro-courses & certifications.", "tag": "Learning"},
-    {"name": "EventSphere", "desc": "End-to-end event management toolkit for Nina meetups.", "tag": "Events"},
-    {"name": "VoiceBridge", "desc": "Multilingual translation tool for global members.", "tag": "AI/ML"},
-    {"name": "FundRaise 360", "desc": "Transparent fundraising & donor tracking system.", "tag": "Ops"},
-    {"name": "PixelCraft Studio", "desc": "Creative design toolkit for branding projects.", "tag": "Design"},
-    {"name": "CodeSprint Arena", "desc": "Competitive hackathon & coding challenge platform.", "tag": "Tech"},
-    {"name": "WellnessHub", "desc": "Mental health & wellness resource center for members.", "tag": "Community"},
+    {"name": "Aurora AI Assistant", "desc": "Build a conversational assistant for internal ops.", "tag": "AI/ML",
+     "team_size": "4-6 members", "duration": "8 weeks", "stack": "Python, LangChain, FastAPI", "lead": "Riya Kapoor"},
+    {"name": "Nina Connect", "desc": "A member networking & mentorship platform.", "tag": "Community",
+     "team_size": "3-5 members", "duration": "6 weeks", "stack": "React, Node.js, PostgreSQL", "lead": "Arjun Mehta"},
+    {"name": "GreenPulse Tracker", "desc": "Sustainability dashboard for local chapters.", "tag": "Impact",
+     "team_size": "3-4 members", "duration": "5 weeks", "stack": "Vue.js, D3.js, Firebase", "lead": "Simran Kaur"},
+    {"name": "SkillForge Academy", "desc": "Peer-led micro-courses & certifications.", "tag": "Learning",
+     "team_size": "5-7 members", "duration": "10 weeks", "stack": "Next.js, Supabase, Stripe", "lead": "Devika Rao"},
+    {"name": "EventSphere", "desc": "End-to-end event management toolkit for Nina meetups.", "tag": "Events",
+     "team_size": "4-5 members", "duration": "7 weeks", "stack": "Django, React, AWS", "lead": "Karan Shah"},
+    {"name": "VoiceBridge", "desc": "Multilingual translation tool for global members.", "tag": "AI/ML",
+     "team_size": "4-6 members", "duration": "9 weeks", "stack": "Python, Whisper API, gRPC", "lead": "Meera Iyer"},
+    {"name": "FundRaise 360", "desc": "Transparent fundraising & donor tracking system.", "tag": "Ops",
+     "team_size": "3-5 members", "duration": "6 weeks", "stack": "Ruby on Rails, PostgreSQL, Plaid", "lead": "Vikram Nair"},
+    {"name": "PixelCraft Studio", "desc": "Creative design toolkit for branding projects.", "tag": "Design",
+     "team_size": "2-4 members", "duration": "5 weeks", "stack": "Figma API, React, Canvas.js", "lead": "Ananya Desai"},
+    {"name": "CodeSprint Arena", "desc": "Competitive hackathon & coding challenge platform.", "tag": "Tech",
+     "team_size": "5-6 members", "duration": "8 weeks", "stack": "Go, Docker, Kubernetes", "lead": "Rohan Verma"},
+    {"name": "WellnessHub", "desc": "Mental health & wellness resource center for members.", "tag": "Community",
+     "team_size": "3-4 members", "duration": "6 weeks", "stack": "React Native, Node.js, MongoDB", "lead": "Priya Nambiar"},
 ]
 
 WELCOME_MESSAGES = [
@@ -345,16 +359,42 @@ else:
     st.write("Based on your interests, here are hand-picked projects you can jump into right away:")
 
     for proj in data["unlocked_projects"]:
+        joined = proj["name"] in st.session_state.joined_projects
+
         st.markdown(
             f"""
             <div class="project-card">
                 <h4>🚀 {proj['name']}</h4>
                 <p>{proj['desc']}</p>
                 <span class="badge">{proj['tag']}</span>
+                {'<span class="badge" style="background:#dcfce7;color:#166534;margin-left:6px;">✅ Joined</span>' if joined else ''}
             </div>
             """,
             unsafe_allow_html=True,
         )
+
+        detail_col, join_col = st.columns([1, 1])
+
+        with detail_col:
+            with st.popover("🔍 View Details", use_container_width=True):
+                st.markdown(f"### {proj['name']}")
+                st.write(proj["desc"])
+                st.markdown(f"**Project Lead:** {proj['lead']}")
+                st.markdown(f"**Team Size:** {proj['team_size']}")
+                st.markdown(f"**Duration:** {proj['duration']}")
+                st.markdown(f"**Tech Stack:** {proj['stack']}")
+                st.markdown(f"**Category:** {proj['tag']}")
+
+        with join_col:
+            if joined:
+                st.button("✅ Joined", key=f"joined_{proj['name']}", disabled=True, use_container_width=True)
+            else:
+                if st.button("Join Project", key=f"join_{proj['name']}", use_container_width=True):
+                    st.session_state.joined_projects.add(proj["name"])
+                    st.toast(f"🎉 You joined {proj['name']}!", icon="🚀")
+                    st.rerun()
+
+        st.markdown("<div style='margin-bottom: 0.8rem;'></div>", unsafe_allow_html=True)
 
     st.markdown("</div>", unsafe_allow_html=True)
 
