@@ -14,7 +14,7 @@ from datetime import datetime
 # ----------------------------------------------------------------------------
 st.set_page_config(
     page_title="Nina Organization | Registration",
-    page_icon="✨",
+    page_icon="N",
     layout="centered",
     initial_sidebar_state="collapsed",
 )
@@ -27,7 +27,7 @@ st.markdown(
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap');
 
-        html, body, [class*="css"]  {
+        html, body, [class*="css"] {
             font-family: 'Poppins', sans-serif;
         }
 
@@ -254,8 +254,204 @@ PROJECT_POOL = [
 ]
 
 WELCOME_MESSAGES = [
-    "You're officially part of something amazing!",
-    "The Nina family just got bigger - welcome aboard!",
-    "Get ready to build, learn, and grow with us!",
-    "Your journey with Nina Organization starts now!",
+    "You're officially part of something amazing! ",
+    "The Nina family just got bigger — welcome aboard! ",
+    "Get ready to build, learn, and grow with us! ",
+    "Your journey with Nina Organization starts now! ",
 ]
+
+EMAIL_REGEX = r"^[^@\s]+@[^@\s]+\.[^@\s]+$"
+PHONE_REGEX = r"^\+?[0-9\s\-]{7,15}$"
+
+# ----------------------------------------------------------------------------
+# HERO SECTION
+# ----------------------------------------------------------------------------
+st.markdown(
+    """
+    <div class="nina-hero">
+        <h1> Nina Organization</h1>
+        <p>Empowering people, building futures — join our community today</p>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
+
+# ----------------------------------------------------------------------------
+# REGISTRATION FORM (only shown before successful registration)
+# ----------------------------------------------------------------------------
+if not st.session_state.registered:
+
+    st.markdown('<div class="glass-card">', unsafe_allow_html=True)
+    st.markdown('<div class="section-title">Member Registration</div>', unsafe_allow_html=True)
+
+    with st.form("registration_form", clear_on_submit=False):
+        col1, col2 = st.columns(2)
+        with col1:
+            first_name = st.text_input("First Name *", placeholder="Nina")
+        with col2:
+            last_name = st.text_input("Last Name *", placeholder="Sharma")
+
+        email = st.text_input("Email Address *", placeholder="nina@example.com")
+        phone = st.text_input("Phone Number *", placeholder="+91 98765 43210")
+
+        col3, col4 = st.columns(2)
+        with col3:
+            dob = st.date_input(
+                "Date of Birth",
+                min_value=datetime(1950, 1, 1),
+                max_value=datetime.now(),
+                value=None,
+            )
+        with col4:
+            gender = st.selectbox("Gender", ["Prefer not to say", "Female", "Male", "Non-binary", "Other"])
+
+        department = st.selectbox(
+            "Area of Interest *",
+            ["Technology", "Design", "Community & Events", "Fundraising", "Learning & Development", "Operations"],
+        )
+
+        experience = st.select_slider(
+            "Experience Level",
+            options=["Beginner", "Intermediate", "Advanced", "Expert"],
+            value="Intermediate",
+        )
+
+        bio = st.text_area("Tell us about yourself", placeholder="A few lines about you, your skills, and why you're joining Nina...", height=90)
+
+        terms = st.checkbox("I agree to the Nina Organization's terms & code of conduct *")
+
+        submitted = st.form_submit_button("Register & Unlock Projects")
+
+    if submitted:
+        errors = []
+        if not first_name.strip() or not last_name.strip():
+            errors.append("Please enter your full name.")
+        if not email.strip() or not re.match(EMAIL_REGEX, email.strip()):
+            errors.append("Please enter a valid email address.")
+        if not phone.strip() or not re.match(PHONE_REGEX, phone.strip()):
+            errors.append("Please enter a valid phone number.")
+        if not terms:
+            errors.append("You must agree to the terms & code of conduct.")
+
+        if errors:
+            for e in errors:
+                st.error(e)
+        else:
+            st.session_state.user_data = {
+                "first_name": first_name.strip(),
+                "last_name": last_name.strip(),
+                "email": email.strip(),
+                "phone": phone.strip(),
+                "dob": dob,
+                "gender": gender,
+                "department": department,
+                "experience": experience,
+                "bio": bio.strip(),
+                "unlocked_projects": random.sample(PROJECT_POOL, k=4),
+                "registered_at": datetime.now().strftime("%d %b %Y, %I:%M %p"),
+            }
+            st.session_state.registered = True
+            st.rerun()
+
+    st.markdown("</div>", unsafe_allow_html=True)
+
+# ----------------------------------------------------------------------------
+# SUCCESS / WELCOME SCREEN
+# ----------------------------------------------------------------------------
+else:
+    data = st.session_state.user_data
+
+    st.balloons()
+
+    with st.spinner("Unlocking your Nina member perks..."):
+        time.sleep(0.6)
+
+    st.markdown(
+        f"""
+        <div class="welcome-banner">
+            <h2>Welcome, {data['first_name']}!</h2>
+            <p>{random.choice(WELCOME_MESSAGES)}</p>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    st.markdown('<div class="glass-card">', unsafe_allow_html=True)
+    st.markdown('<div class="section-title">Your Registration Summary</div>', unsafe_allow_html=True)
+
+    c1, c2 = st.columns(2)
+    with c1:
+        st.markdown(f"**Name:** {data['first_name']} {data['last_name']}")
+        st.markdown(f"**Email:** {data['email']}")
+        st.markdown(f"**Phone:** {data['phone']}")
+    with c2:
+        st.markdown(f"**Interest Area:** {data['department']}")
+        st.markdown(f"**Experience:** {data['experience']}")
+        st.markdown(f"**Registered On:** {data['registered_at']}")
+
+    if data.get("bio"):
+        st.markdown(f"**About:** _{data['bio']}_")
+
+    st.markdown("</div>", unsafe_allow_html=True)
+
+    st.markdown('<div class="glass-card">', unsafe_allow_html=True)
+    st.markdown('<div class="section-title">Exciting News — You\'ve Unlocked 4 Projects!</div>', unsafe_allow_html=True)
+    st.write("Based on your interests, here are hand-picked projects you can jump into right away:")
+
+    for proj in data["unlocked_projects"]:
+        joined = proj["name"] in st.session_state.joined_projects
+
+        st.markdown(
+            f"""
+            <div class="project-card">
+                <h4>{proj['name']}</h4>
+                <p>{proj['desc']}</p>
+                <p style="margin-top:0.4rem; font-size:0.82rem; color:#764ba2;"><b>Tech Stack:</b> {proj['stack']}</p>
+                <span class="badge">{proj['tag']}</span>
+                {'<span class="badge" style="background:#dcfce7;color:#166534;margin-left:6px;">Joined</span>' if joined else ''}
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+
+        link_col1, link_col2, join_col = st.columns([1.3, 1.3, 1])
+
+        with link_col1:
+            st.link_button(f"{proj['learn_label']}", proj["learn_url"], use_container_width=True)
+
+        with link_col2:
+            st.link_button(f"{proj['repo_label']}", proj["repo_url"], use_container_width=True)
+
+        with join_col:
+            if joined:
+                st.button("Joined", key=f"joined_{proj['name']}", disabled=True, use_container_width=True)
+            else:
+                if st.button("Join Project", key=f"join_{proj['name']}", use_container_width=True):
+                    st.session_state.joined_projects.add(proj["name"])
+                    st.toast(f"You joined {proj['name']}!", icon="")
+                    st.rerun()
+
+        st.markdown("<div style='margin-bottom: 0.8rem;'></div>", unsafe_allow_html=True)
+
+    st.markdown("</div>", unsafe_allow_html=True)
+
+    colA, colB = st.columns(2)
+    with colA:
+        if st.button("Register Another Member"):
+            st.session_state.registered = False
+            st.session_state.user_data = {}
+            st.rerun()
+    with colB:
+        st.button("Share My Journey (coming soon)", disabled=True)
+
+# ----------------------------------------------------------------------------
+# FOOTER
+# ----------------------------------------------------------------------------
+st.markdown(
+    """
+    <div class="footer-note">
+        Made with 💜 for Nina Organization &nbsp;|&nbsp; Powered by Streamlit
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
