@@ -24,9 +24,8 @@ pipeline{
         stage('testing the image'){
             steps{
                 sh '''
-                   docker kill c1 // true
-                   docker rm c1 // true
-                   docker rmi ${Image_Name} // true
+                   docker kill c1 || true
+                   docker rm c1 || true
                    docker run -it -d --name c1 -p 9001:8501 ${Image_Name}
                 '''
             }
