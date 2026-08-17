@@ -254,5 +254,8 @@ PROJECT_POOL = [
 ]
 
 WELCOME_MESSAGES = [
-    "You're officially part of something amazing! 🎉",
-    "The Nina family just got bigger — welcome
+    "You're officially part of something amazing!",
+    "The Nina family just got bigger - welcome aboard!",
+    "Get ready to build, learn, and grow with us!",
+    "Your journey with Nina Organization starts now!",
+]
