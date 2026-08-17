@@ -21,4 +21,14 @@ pipeline{
             }
         }
     }
-}
+        stage('testing the image')
+           steps{
+                sh '''
+                   docker kill c1
+                   docker rm c1
+                   docker run -it -d --name c1 -p 9001:8501 ${Image_Name}          
+                '''
+            }
+        }
+    }
+}            
