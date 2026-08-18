@@ -196,61 +196,81 @@ PROJECT_POOL = [
      "learn_label": "LangChain Official Tutorials",
      "learn_url": "https://python.langchain.com/docs/tutorials/",
      "repo_label": "Example: Build a Chatbot (GitHub)",
-     "repo_url": "https://github.com/langchain-ai/langchain/tree/master/cookbook"},
+     "repo_url": "https://github.com/langchain-ai/langchain/tree/master/cookbook",
+     "video_label": "Watch: LangChain Tutorials",
+     "video_url": "https://www.youtube.com/results?search_query=langchain+tutorial+for+beginners"},
     {"name": "Nina Connect", "desc": "A member networking & mentorship platform.", "tag": "Community",
      "stack": "React, Node.js, PostgreSQL",
      "learn_label": "React Official Docs — Learn",
      "learn_url": "https://react.dev/learn",
      "repo_label": "Full-stack React+Node Example (GitHub)",
-     "repo_url": "https://github.com/topics/react-node-postgresql"},
+     "repo_url": "https://github.com/topics/react-node-postgresql",
+     "video_label": "Watch: React + Node Full Stack",
+     "video_url": "https://www.youtube.com/results?search_query=react+node+postgresql+full+stack+tutorial"},
     {"name": "GreenPulse Tracker", "desc": "Sustainability dashboard for local chapters.", "tag": "Impact",
      "stack": "Vue.js, D3.js, Firebase",
      "learn_label": "D3.js Official Gallery & Docs",
      "learn_url": "https://d3js.org/",
      "repo_label": "Vue + D3 Dashboard Examples (GitHub)",
-     "repo_url": "https://github.com/topics/vue-d3"},
+     "repo_url": "https://github.com/topics/vue-d3",
+     "video_label": "Watch: D3.js Dashboard Tutorial",
+     "video_url": "https://www.youtube.com/results?search_query=d3.js+dashboard+tutorial"},
     {"name": "SkillForge Academy", "desc": "Peer-led micro-courses & certifications.", "tag": "Learning",
      "stack": "Next.js, Supabase, Stripe",
      "learn_label": "Next.js Official Learn Course",
      "learn_url": "https://nextjs.org/learn",
      "repo_label": "Next.js + Supabase Starter (GitHub)",
-     "repo_url": "https://github.com/vercel/next.js/tree/canary/examples/with-supabase"},
+     "repo_url": "https://github.com/vercel/next.js/tree/canary/examples/with-supabase",
+     "video_label": "Watch: Next.js + Supabase Course",
+     "video_url": "https://www.youtube.com/results?search_query=next.js+supabase+full+course"},
     {"name": "EventSphere", "desc": "End-to-end event management toolkit for Nina meetups.", "tag": "Events",
      "stack": "Django, React, AWS",
      "learn_label": "Django Official Tutorial",
      "learn_url": "https://docs.djangoproject.com/en/stable/intro/tutorial01/",
      "repo_label": "Django + React Example (GitHub)",
-     "repo_url": "https://github.com/topics/django-react"},
+     "repo_url": "https://github.com/topics/django-react",
+     "video_label": "Watch: Django + React Tutorial",
+     "video_url": "https://www.youtube.com/results?search_query=django+react+full+stack+tutorial"},
     {"name": "VoiceBridge", "desc": "Multilingual translation tool for global members.", "tag": "AI/ML",
      "stack": "Python, Whisper API, gRPC",
      "learn_label": "OpenAI Whisper Speech-to-Text Guide",
      "learn_url": "https://platform.openai.com/docs/guides/speech-to-text",
      "repo_label": "Whisper Model & Examples (GitHub)",
-     "repo_url": "https://github.com/openai/whisper"},
+     "repo_url": "https://github.com/openai/whisper",
+     "video_label": "Watch: OpenAI Whisper Tutorial",
+     "video_url": "https://www.youtube.com/results?search_query=openai+whisper+speech+to+text+tutorial"},
     {"name": "FundRaise 360", "desc": "Transparent fundraising & donor tracking system.", "tag": "Ops",
      "stack": "Ruby on Rails, PostgreSQL, Plaid",
      "learn_label": "Ruby on Rails Official Guides",
      "learn_url": "https://guides.rubyonrails.org/",
      "repo_label": "Rails + Payments Example (GitHub)",
-     "repo_url": "https://github.com/topics/rails-payments"},
+     "repo_url": "https://github.com/topics/rails-payments",
+     "video_label": "Watch: Rails + Payments Tutorial",
+     "video_url": "https://www.youtube.com/results?search_query=ruby+on+rails+payments+tutorial"},
     {"name": "PixelCraft Studio", "desc": "Creative design toolkit for branding projects.", "tag": "Design",
      "stack": "Figma API, React, Canvas.js",
      "learn_label": "Figma Developer Docs & API",
      "learn_url": "https://www.figma.com/developers/api",
      "repo_label": "Canvas.js Design Tool Examples (GitHub)",
-     "repo_url": "https://github.com/topics/canvas-design-tool"},
+     "repo_url": "https://github.com/topics/canvas-design-tool",
+     "video_label": "Watch: Figma API Tutorial",
+     "video_url": "https://www.youtube.com/results?search_query=figma+api+tutorial"},
     {"name": "CodeSprint Arena", "desc": "Competitive hackathon & coding challenge platform.", "tag": "Tech",
      "stack": "Go, Docker, Kubernetes",
      "learn_label": "Kubernetes Official Tutorials",
      "learn_url": "https://kubernetes.io/docs/tutorials/",
      "repo_label": "Go + Docker Starter Kit (GitHub)",
-     "repo_url": "https://github.com/topics/go-docker-kubernetes"},
+     "repo_url": "https://github.com/topics/go-docker-kubernetes",
+     "video_label": "Watch: Kubernetes for Beginners",
+     "video_url": "https://www.youtube.com/results?search_query=kubernetes+for+beginners+full+course"},
     {"name": "WellnessHub", "desc": "Mental health & wellness resource center for members.", "tag": "Community",
      "stack": "React Native, Node.js, MongoDB",
      "learn_label": "React Native Official Getting Started",
      "learn_url": "https://reactnative.dev/docs/getting-started",
      "repo_label": "React Native + Node Example (GitHub)",
-     "repo_url": "https://github.com/topics/react-native-node-mongodb"},
+     "repo_url": "https://github.com/topics/react-native-node-mongodb",
+     "video_label": "Watch: React Native Full Course",
+     "video_url": "https://www.youtube.com/results?search_query=react+native+full+course+for+beginners"},
 ]
 
 WELCOME_MESSAGES = [
@@ -416,11 +436,16 @@ else:
         """
         <style>
             .success-check-wrap {
+                position: relative;
                 display: flex;
                 justify-content: center;
+                align-items: center;
                 margin: 1.5rem 0 0.5rem 0;
+                height: 120px;
             }
             .success-check {
+                position: relative;
+                z-index: 2;
                 width: 84px;
                 height: 84px;
                 border-radius: 50%;
@@ -445,6 +470,16 @@ else:
                 stroke-dashoffset: 48;
                 animation: draw-check 0.5s ease forwards 0.35s;
             }
+            .blast-dot {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                opacity: 0;
+                animation: blast-out 0.7s ease-out forwards 0.15s;
+            }
             @keyframes pop-in {
                 0% { transform: scale(0); opacity: 0; }
                 60% { transform: scale(1.15); opacity: 1; }
@@ -453,8 +488,24 @@ else:
             @keyframes draw-check {
                 to { stroke-dashoffset: 0; }
             }
+            @keyframes blast-out {
+                0% { transform: translate(-50%, -50%) rotate(var(--ang)) translateX(0) scale(1); opacity: 1; }
+                100% { transform: translate(-50%, -50%) rotate(var(--ang)) translateX(70px) scale(0); opacity: 0; }
+            }
         </style>
         <div class="success-check-wrap">
+            <div class="blast-dot" style="--ang:0deg; background:#22c55e;"></div>
+            <div class="blast-dot" style="--ang:30deg; background:#764ba2;"></div>
+            <div class="blast-dot" style="--ang:60deg; background:#f093fb;"></div>
+            <div class="blast-dot" style="--ang:90deg; background:#22c55e;"></div>
+            <div class="blast-dot" style="--ang:120deg; background:#764ba2;"></div>
+            <div class="blast-dot" style="--ang:150deg; background:#f093fb;"></div>
+            <div class="blast-dot" style="--ang:180deg; background:#22c55e;"></div>
+            <div class="blast-dot" style="--ang:210deg; background:#764ba2;"></div>
+            <div class="blast-dot" style="--ang:240deg; background:#f093fb;"></div>
+            <div class="blast-dot" style="--ang:270deg; background:#22c55e;"></div>
+            <div class="blast-dot" style="--ang:300deg; background:#764ba2;"></div>
+            <div class="blast-dot" style="--ang:330deg; background:#f093fb;"></div>
             <div class="success-check">
                 <svg viewBox="0 0 24 24">
                     <path d="M4 12.5 L9.5 18 L20 6" />
@@ -518,13 +569,16 @@ else:
             unsafe_allow_html=True,
         )
 
-        link_col1, link_col2, join_col = st.columns([1.3, 1.3, 1])
+        link_col1, link_col2, link_col3, join_col = st.columns([1.15, 1.15, 1.15, 0.9])
 
         with link_col1:
             st.link_button(f"{proj['learn_label']}", proj["learn_url"], use_container_width=True)
 
         with link_col2:
             st.link_button(f"{proj['repo_label']}", proj["repo_url"], use_container_width=True)
+
+        with link_col3:
+            st.link_button(f"{proj['video_label']}", proj["video_url"], use_container_width=True)
 
         with join_col:
             if joined:
