@@ -21,7 +21,8 @@ pipeline{
             }
         }
 
-        // stage('testing the image'){
+        /*
+        stage('testing the image'){
             steps{
                 sh '''
                    docker kill c1 || true
@@ -30,19 +31,20 @@ pipeline{
                 '''
             }
         }
-    // }
-        stage{'docker-hub-login'}{
+        */
+
+        stage('docker-hub-login'){
             steps{
                 withCredentials([usernamePassword(credentialsId: 'docker-hub-creds', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
-                 sh 'echo $DOCKER_PASSWORD / docker login -u $DOCKER_USERNAME --password-stdin'
+                    sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
+                }
             }
         }
-    }
-}
-         stage{'pushing to registry'}{
+
+        stage('pushing to registry'){
             steps{
-                sh'''
-                docker push ${Image_Name}
+                sh '''
+                   docker push ${Image_Name}
                 '''
             }
         }
