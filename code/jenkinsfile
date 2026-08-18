@@ -1,0 +1,34 @@
+pipeline{
+    agent any
+    environment{
+        Image_Name= "chandanabalaiah/devops-masterclass:${GIT_COMMIT}"
+    }
+    stages{
+        stage('Git-checkout'){
+            steps{
+              git url: 'https://github.com/chandanabalaiah/devops-masterclass.git',branch: 'main'
+            }
+        }
+
+        stage('Build'){
+            steps{
+              sh '''
+                 printenv
+                 pwd
+                 cd code/
+                 docker build -t ${Image_Name} .
+              '''
+            }
+        }
+
+        stage('testing the image'){
+            steps{
+                sh '''
+                   docker kill c1 || true
+                   docker rm c1 || true
+                   docker run -it -d --name c1 -p 9001:8501 ${Image_Name}
+                '''
+            }
+        }
+    }
+}            
