@@ -273,6 +273,91 @@ PROJECT_POOL = [
      "video_url": "https://www.youtube.com/results?search_query=react+native+full+course+for+beginners"},
 ]
 
+# ----------------------------------------------------------------------------
+# INTEREST-BASED LEARNING RESOURCES — matched to the "Area of Interest" the
+# member actually selected during registration
+# ----------------------------------------------------------------------------
+INTEREST_RESOURCES = {
+    "Technology": {
+        "video": "https://www.youtube.com/results?search_query=technology+career+roadmap+for+beginners",
+        "doc": "https://roadmap.sh/"},
+    "Software Development": {
+        "video": "https://www.youtube.com/results?search_query=software+development+full+course+for+beginners",
+        "doc": "https://roadmap.sh/full-stack"},
+    "Data Science & Analytics": {
+        "video": "https://www.youtube.com/results?search_query=data+science+full+course+for+beginners",
+        "doc": "https://www.kaggle.com/learn"},
+    "Artificial Intelligence & ML": {
+        "video": "https://www.youtube.com/results?search_query=machine+learning+full+course+for+beginners",
+        "doc": "https://www.coursera.org/specializations/machine-learning-introduction"},
+    "Cybersecurity": {
+        "video": "https://www.youtube.com/results?search_query=cybersecurity+full+course+for+beginners",
+        "doc": "https://tryhackme.com/"},
+    "Cloud & DevOps": {
+        "video": "https://www.youtube.com/results?search_query=devops+full+course+for+beginners",
+        "doc": "https://roadmap.sh/devops"},
+    "Design": {
+        "video": "https://www.youtube.com/results?search_query=graphic+design+full+course+for+beginners",
+        "doc": "https://www.figma.com/resource-library/"},
+    "UI/UX Design": {
+        "video": "https://www.youtube.com/results?search_query=ui+ux+design+full+course+for+beginners",
+        "doc": "https://www.interaction-design.org/"},
+    "Graphic Design": {
+        "video": "https://www.youtube.com/results?search_query=graphic+design+tutorial+for+beginners",
+        "doc": "https://www.canva.com/learn/"},
+    "Product Management": {
+        "video": "https://www.youtube.com/results?search_query=product+management+full+course+for+beginners",
+        "doc": "https://www.productplan.com/learn/"},
+    "Community & Events": {
+        "video": "https://www.youtube.com/results?search_query=community+management+and+event+planning+tutorial",
+        "doc": "https://cmxhub.com/resources/"},
+    "Marketing & Social Media": {
+        "video": "https://www.youtube.com/results?search_query=digital+marketing+full+course+for+beginners",
+        "doc": "https://blog.hubspot.com/marketing"},
+    "Content Writing": {
+        "video": "https://www.youtube.com/results?search_query=content+writing+course+for+beginners",
+        "doc": "https://copyblogger.com/blog/"},
+    "Fundraising": {
+        "video": "https://www.youtube.com/results?search_query=nonprofit+fundraising+strategies+tutorial",
+        "doc": "https://www.classy.org/blog/"},
+    "Sponsorship & Partnerships": {
+        "video": "https://www.youtube.com/results?search_query=sponsorship+and+partnerships+strategy+tutorial",
+        "doc": "https://sponsorship.com/resources/"},
+    "Learning & Development": {
+        "video": "https://www.youtube.com/results?search_query=learning+and+development+tutorial+for+beginners",
+        "doc": "https://www.td.org/insights"},
+    "Mentorship": {
+        "video": "https://www.youtube.com/results?search_query=how+to+be+a+good+mentor+tutorial",
+        "doc": "https://www.mentorloop.com/blog/"},
+    "Operations": {
+        "video": "https://www.youtube.com/results?search_query=business+operations+management+tutorial",
+        "doc": "https://asana.com/resources/operations-management"},
+    "Human Resources": {
+        "video": "https://www.youtube.com/results?search_query=human+resources+fundamentals+course",
+        "doc": "https://www.shrm.org/topics-tools"},
+    "Finance & Accounting": {
+        "video": "https://www.youtube.com/results?search_query=finance+and+accounting+basics+course",
+        "doc": "https://www.investopedia.com/"},
+    "Legal & Compliance": {
+        "video": "https://www.youtube.com/results?search_query=nonprofit+legal+compliance+basics",
+        "doc": "https://www.councilofnonprofits.org/running-nonprofit"},
+    "Research": {
+        "video": "https://www.youtube.com/results?search_query=research+methods+tutorial+for+beginners",
+        "doc": "https://www.scribbr.com/category/methodology/"},
+    "Public Relations": {
+        "video": "https://www.youtube.com/results?search_query=public+relations+fundamentals+course",
+        "doc": "https://www.prsa.org/"},
+    "Volunteering & Outreach": {
+        "video": "https://www.youtube.com/results?search_query=volunteer+program+management+tutorial",
+        "doc": "https://www.volunteermatch.org/nonprofits/resources"},
+    "Wellness": {
+        "video": "https://www.youtube.com/results?search_query=workplace+wellness+program+tutorial",
+        "doc": "https://www.who.int/teams/mental-health-and-substance-use/promotion-prevention/mental-health-in-the-workplace"},
+    "Other": {
+        "video": "https://www.youtube.com/results?search_query=nina+organization+community+skills",
+        "doc": "https://www.coursera.org/"},
+}
+
 WELCOME_MESSAGES = [
     "You're officially part of something amazing! ",
     "The Nina family just got bigger — welcome aboard! ",
@@ -546,6 +631,19 @@ else:
 
     if data.get("bio"):
         st.markdown(f"**About:** _{data['bio']}_")
+
+    st.markdown("</div>", unsafe_allow_html=True)
+
+    interest_res = INTEREST_RESOURCES.get(data["department"], INTEREST_RESOURCES["Other"])
+    st.markdown('<div class="glass-card">', unsafe_allow_html=True)
+    st.markdown(f'<div class="section-title">Resources for {data["department"]}</div>', unsafe_allow_html=True)
+    st.write(f"Since you're interested in **{data['department']}**, here's where to start learning:")
+
+    res_col1, res_col2 = st.columns(2)
+    with res_col1:
+        st.link_button(f"Watch: {data['department']} Videos", interest_res["video"], use_container_width=True)
+    with res_col2:
+        st.link_button(f"Explore: {data['department']} Resources", interest_res["doc"], use_container_width=True)
 
     st.markdown("</div>", unsafe_allow_html=True)
 
