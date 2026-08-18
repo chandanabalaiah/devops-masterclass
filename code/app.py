@@ -1,6 +1,5 @@
 """
 Nina Organization — Member Registration Portal
-Run with: streamlit run nina_registration_app.py
 """
 
 import streamlit as st
@@ -9,12 +8,7 @@ import random
 import re
 from datetime import datetime
 
-st.set_page_config(
-    page_title="Nina Organization | Registration",
-    page_icon="N",
-    layout="centered",
-    initial_sidebar_state="collapsed",
-)
+st.set_page_config(page_title="Nina Organization | Registration", page_icon="N", layout="centered", initial_sidebar_state="collapsed")
 
 st.markdown(
     """
@@ -33,7 +27,7 @@ st.markdown(
         .section-title { font-weight: 700; font-size: 1.15rem; color: #4c1d95; margin-bottom: 0.6rem; display: flex; align-items: center; gap: 0.4rem; }
         div.stButton > button { width: 100%; background: linear-gradient(90deg, #667eea, #764ba2); color: white; font-weight: 600; font-size: 1.05rem; padding: 0.7rem 0; border-radius: 14px; border: none; box-shadow: 0 8px 20px rgba(118, 75, 162, 0.4); transition: all 0.25s ease; }
         div.stButton > button:hover { transform: translateY(-2px) scale(1.01); box-shadow: 0 12px 28px rgba(118, 75, 162, 0.55); color: white; }
-        .stTextInput input, .stTextInput textarea, .stSelectbox div[data-baseweb="select"] > div, .stDateInput input, .stTextArea textarea { border-radius: 12px !important; border: 1.5px solid #e5d9f7 !important; }
+        .stTextInput input, .stTextInput textarea, .stSelectbox div[data-baseweb="select"] > div, .stTextArea textarea { border-radius: 12px !important; border: 1.5px solid #e5d9f7 !important; }
         .project-card { background: linear-gradient(135deg, #ffffff, #f6f1ff); border-radius: 18px; padding: 1.1rem 1.3rem; margin-bottom: 0.6rem; border-left: 5px solid #764ba2; box-shadow: 0 8px 20px rgba(118, 75, 162, 0.12); transition: transform 0.2s ease, box-shadow 0.2s ease; cursor: pointer; }
         .project-card:hover { transform: translateX(4px); box-shadow: 0 12px 28px rgba(118, 75, 162, 0.22); }
         .project-card h4 { margin: 0 0 0.25rem 0; color: #4c1d95; }
@@ -142,18 +136,13 @@ if not st.session_state.registered:
         email = st.text_input("Email Address *", placeholder="nina@example.com")
         phone = st.text_input("Phone Number *", placeholder="+91 98765 43210")
 
-        col3, col4 = st.columns(2)
-        with col3:
-            dob = st.date_input("Date of Birth", min_value=datetime(1950, 1, 1), max_value=datetime.now(), value=None)
-        with col4:
-            gender = st.selectbox("Gender", ["Prefer not to say", "Female", "Male", "Non-binary", "Transgender", "Genderfluid", "Agender", "Other"])
-
         department = st.selectbox("Area of Interest *", [
             "Technology", "Software Development", "Data Science & Analytics", "Artificial Intelligence & ML",
             "Cybersecurity", "Cloud & DevOps", "Design", "UI/UX Design", "Graphic Design", "Product Management",
             "Community & Events", "Marketing & Social Media", "Content Writing", "Fundraising",
             "Sponsorship & Partnerships", "Learning & Development", "Mentorship", "Operations", "Human Resources",
-            "Finance & Accounting", "Legal & Compliance", "Research", "Public Relations", "Volunteering & Outreach", "Other",
+            "Finance & Accounting", "Legal & Compliance", "Research", "Public Relations", "Volunteering & Outreach",
+            "Wellness", "Other",
         ])
 
         experience = st.select_slider("Experience Level", options=["Beginner", "Novice", "Intermediate", "Advanced", "Expert", "Specialist"], value="Intermediate")
@@ -166,7 +155,7 @@ if not st.session_state.registered:
 
         bio = st.text_area("Tell us about yourself", placeholder="A few lines about you, your skills, and why you're joining Nina...", height=90)
 
-        terms = st.checkbox("I agree to the Nina Organization's terms & code of conduct *")
+        terms = st.checkbox("I agree to the Nina Organization's terms & code of conduct")
 
         submitted = st.form_submit_button("Register & Unlock Projects")
 
@@ -178,8 +167,6 @@ if not st.session_state.registered:
             errors.append("Please enter a valid email address.")
         if not phone.strip() or not re.match(PHONE_REGEX, phone.strip()):
             errors.append("Please enter a valid phone number.")
-        if not terms:
-            errors.append("You must agree to the terms & code of conduct.")
 
         if errors:
             for e in errors:
@@ -187,7 +174,7 @@ if not st.session_state.registered:
         else:
             st.session_state.user_data = {
                 "first_name": first_name.strip(), "last_name": last_name.strip(), "email": email.strip(),
-                "phone": phone.strip(), "dob": dob, "gender": gender, "department": department,
+                "phone": phone.strip(), "department": department,
                 "experience": experience, "availability": availability, "preferred_mode": preferred_mode,
                 "referral": referral, "bio": bio.strip(),
                 "unlocked_projects": random.sample(PROJECT_POOL, k=4),
